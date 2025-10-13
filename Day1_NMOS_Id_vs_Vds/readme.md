@@ -306,7 +306,7 @@ In the plotted waveforms, observe:
 
 ## 🔗 Next Step
 
-➡️ Proceed to **[Day 2 — Velocity Saturation and CMOS Inverter VTC](./Day2_CMOS_VTC/readme.md)**
+➡️ Proceed to **[Day 2 — Velocity Saturation and CMOS Inverter VTC](../Day2_CMOS_VTC/readme.md)**
 Here, you’ll explore **Id–Vgs characteristics**, extract **Vth**, and analyze the **Voltage Transfer Characteristic (VTC)** of a CMOS inverter.
 
 ---
