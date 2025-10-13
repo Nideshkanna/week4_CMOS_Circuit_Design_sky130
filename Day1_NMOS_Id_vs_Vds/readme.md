@@ -137,7 +137,7 @@ $[
 I_D = \frac{1}{2}\mu_n C_{ox}\frac{W}{L}(V_{GS} - V_T)^2
 ]$
 
-![06](./images/06.jpg)
+![06](./images/06.JPG)
 
 ---
 
