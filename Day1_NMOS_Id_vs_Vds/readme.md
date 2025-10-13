@@ -38,7 +38,7 @@ An **NMOS transistor** is a **voltage-controlled device** where current flows be
 * **Drain (D):** Where carriers leave.
 * **Body/Substrate (B):** Usually tied to the lowest potential (GND for NMOS).
 
-🖼️ *Marker for image — "NMOS Structure and Terminals"*
+![01](./images/01.png)
 
 ---
 
@@ -52,7 +52,7 @@ When **V<sub>GS</sub> (Gate-Source Voltage)** exceeds a certain value, called th
 * Above **V<sub>th</sub>**, electrons form a strong inversion layer — the transistor turns **ON**.
 * The region where this transition occurs is crucial for switching circuits.
 
-🖼️ *Marker for image — "Strong Inversion vs Weak Inversion"*
+![02](./images/02.png)
 
 ---
 
@@ -73,7 +73,7 @@ Where:
 * $(\gamma)$: Body effect coefficient
 * $(\Phi_F)$: Fermi potential
 
-🖼️ *Marker for image — "Body Effect Illustration and Equation"*
+![03](./images/03.png)
 
 ---
 
@@ -100,7 +100,7 @@ I_D = \mu_n C_{ox} \frac{W}{L} \left[ (V_{GS} - V_T)V_{DS} - \frac{V_{DS}^2}{2} 
 * Current increases linearly with **V<sub>DS</sub>**.
 * Suitable for **analog amplifiers and switches**.
 
-🖼️ *Marker for image — "Linear Region Id-Vds Curve"*
+![04](./images/04.png)
 
 ---
 
@@ -118,7 +118,8 @@ In the linear region:
   I_D = \mu_n C_{ox} \frac{W}{L} (V_{GS} - V_T - \frac{V_{DS}}{2})V_{DS}
   ]$
 
-🖼️ *Marker for image — "Drift Current Channel Diagram"*
+
+![05](./images/05.png)
 
 ---
 
@@ -137,7 +138,7 @@ $[
 I_D = \frac{1}{2}\mu_n C_{ox}\frac{W}{L}(V_{GS} - V_T)^2
 ]$
 
-🖼️ *Marker for image — "Saturation Region Id-Vds Curve with Pinch-off"*
+![06](./images/06.jpg)
 
 ---
 
@@ -148,7 +149,7 @@ In **Ngspice**, you can simulate the NMOS transistor behavior by sweeping **V<su
 * At low **V<sub>DS</sub>**, Id increases linearly → resistive region.
 * At higher **V<sub>DS</sub>**, Id flattens → saturation region.
 
-🖼️ *Marker for image — "Ngspice Simulation: Id-Vds Curves"*
+![07](./images/07.png)
 
 ---
 
