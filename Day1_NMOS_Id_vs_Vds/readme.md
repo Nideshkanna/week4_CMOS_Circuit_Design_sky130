@@ -145,8 +145,8 @@ I_D = \frac{1}{2}\mu_n C_{ox}\frac{W}{L}(V_{GS} - V_T)^2
 
 In **Ngspice**, you can simulate the NMOS transistor behavior by sweeping **V<sub>DS</sub>** for different **V<sub>GS</sub>** values and plotting **I<sub>D</sub>**.
 
-* At low **$V<sub>DS</sub>$**, Id increases linearly → resistive region.
-* At higher **$V<sub>DS</sub>$**, Id flattens → saturation region.
+* At low **V<sub>DS</sub>**, Id increases linearly → resistive region.
+* At higher **V<sub>DS</sub>**, Id flattens → saturation region.
 
 🖼️ *Marker for image — "Ngspice Simulation: Id-Vds Curves"*
 
