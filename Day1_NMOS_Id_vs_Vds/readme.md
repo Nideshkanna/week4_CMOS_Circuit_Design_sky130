@@ -1,4 +1,4 @@
-
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/7e147b64-f38c-4cc5-8a77-c465ac5806d8" />
 # ⚙️ **Day 1 — Basics of NMOS Drain Current (Id) vs Drain-to-Source Voltage (Vds)**
 
 ### *NgspiceSky130 — CMOS Circuit Design and SPICE Simulation Journey*
@@ -153,98 +153,161 @@ In **Ngspice**, you can simulate the NMOS transistor behavior by sweeping **V<su
 
 ---
 
-## 💻 **Introduction to SPICE**
+# ⚙️ SPICE Simulation Setup — NMOS Id vs Vds (Day 1)
 
-### ⚙️ **Basic SPICE Setup**
+## 💻 Introduction to SPICE
 
-* SPICE netlist (.cir) file defines the **circuit**, **models**, and **simulation commands**.
-* Typical setup:
+**SPICE (Simulation Program with Integrated Circuit Emphasis)** is the industry-standard tool for simulating analog and mixed-signal circuits before fabrication.
+In this session, we’ll explore how to perform a **DC sweep simulation** for an **NMOS transistor** using **Ngspice** and the **Sky130 PDK** models.
 
-  ```spice
-  * NMOS Id vs Vds Simulation
-  .include ./models/sky130.lib
-  M1 D G S B sky130_fd_pr__nfet_01v8 W=2u L=0.15u
-  VGS G S DC 1.8
-  VDS D S DC 0
-  .dc VDS 0 1.8 0.05 VGS 0.7 1.8 0.2
-  .plot dc I(M1)
-  .end
-  ```
-
-🖼️ *Marker for image — "SPICE Netlist Example"*
+You’ll visualize the **Id–Vds characteristics** across multiple **Vgs levels**, validating the fundamental MOSFET behavior — from **linear** to **saturation** regions.
 
 ---
 
-### ✍️ **Circuit Description in SPICE Syntax**
+## ⚙️ Setting Up SPICE with Sky130
 
-Each component is defined using a compact syntax:
-
-* **M1** — MOSFET instance name
-* **D G S B** — Drain, Gate, Source, Body nodes
-* **Model name** — References Sky130 transistor model
-* **Parameters** — W (width), L (length)
-
-🧱 Example:
-`M1 D G S B sky130_fd_pr__nfet_01v8 W=2u L=0.15u`
-
----
-
-### 🧪 **Define Technology Parameters**
-
-The `.include` statement adds **Sky130 PDK model files** to ensure accurate transistor behavior:
-
-```spice
-.include /usr/local/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice
-```
-
-🖼️ *Marker for image — "Sky130 Model File Reference"*
-
----
-
-### 🚀 **First SPICE Simulation**
-
-To run the simulation:
+To use **SPICE** with **Sky130** technology, first clone the open-source repository containing pre-built model files and example circuits.
 
 ```bash
-ngspice nmos_id_vds.cir
+git clone https://github.com/kunalg123/sky130CircuitDesignWorkshop.git
 ```
 
-* Use `.dc` sweep commands for varying **VDS** and **VGS**.
-* Observe **Id-Vds characteristics** using Ngspice plot viewer or export data for analysis.
+### 📁 Important Files in the Repository
 
-🖼️ *Marker for image — "Ngspice Command-Line Output"*
+| File Path                                                                | Description                                        |
+| ------------------------------------------------------------------------ | -------------------------------------------------- |
+| `/sky130_fd_pr/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice`    | SPICE model for the NFET (typical process corner). |
+| `/sky130_fd_pr/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.corner.spice` | Corner model for NFET (used for PVT variations).   |
+| `/sky130_fd_pr/models/sky130.lib.pm3.spice`                              | Main library containing all Sky130 process models. |
 
----
+ℹ️ **Note:** All example `.spice` files for daily experiments are located inside the `design/` directory.
 
-### 🧫 **SPICE Lab with Sky130 Models**
+```bash
+nidesh@nexus-73:~/Soc/4/sky130CircuitDesignWorkshop$ ls
+design  README.md
+nidesh@nexus-73:~/Soc/4/sky130CircuitDesignWorkshop$ cd design/
+nidesh@nexus-73:~/Soc/4/sky130CircuitDesignWorkshop/design$ ls
+day1_nfet_idvds_L2_W5.spice      day4_inv_noisemargin_wp1_wn036.spice
+day2_nfet_idvds_L015_W039.spice  day5_inv_devicevariation_wp7_wn042.spice
+day2_nfet_idvgs_L015_W039.spice  day5_inv_supplyvariation_Wp1_Wn036.spice
+day3_inv_tran_Wp084_Wn036.spice  sky130_fd_pr
+day3_inv_vtc_Wp084_Wn036.spice
 
-Here, you’ll visualize:
-
-* The **drain current** increasing linearly at first (resistive region).
-* Flattening at higher voltages (saturation region).
-* Effects of changing **Vgs** on **Id-Vds curves**.
-
-These plots confirm the theoretical **MOSFET I-V relationship** and solidify your understanding of **device physics** through real model simulations.
-
-🖼️ *Marker for image — "Final Ngspice Output Plot — Id vs Vds for multiple Vgs"*
-
----
-
-## 🧠 **Summary**
-
-| Concept           | Key Takeaway                                                  |
-| ----------------- | ------------------------------------------------------------- |
-| SPICE Simulation  | Essential for pre-fabrication circuit testing                 |
-| NMOS Device       | Controlled by gate voltage (Vgs)                              |
-| Resistive Region  | Linear Id–Vds behavior                                        |
-| Saturation Region | Current saturates; depends on (Vgs - Vth)²                    |
-| Body Effect       | Increases threshold voltage when substrate potential rises    |
-| Ngspice           | Practical tool for simulating and visualizing device behavior |
+```
 
 ---
 
-## 🔗 **Next Step**
+## 🧱 Understanding a SPICE Netlist
 
-> In **[Day 2](../Day2)**, we’ll explore **velocity saturation** and dive deeper into **CMOS inverter Voltage Transfer Characteristics (VTC)** to bridge transistor-level physics with digital logic behavior. ⚡
+The SPICE netlist defines the **circuit**, **model**, and **simulation commands**.
+Below is an example setup for **NMOS Id–Vds simulation**:
+
+```spice
+*** Model Description ***
+.param temp=27
+
+*** Including sky130 library files ***
+.lib "sky130_fd_pr/models/sky130.lib.spice" tt
+
+*** Netlist Description ***
+XM1 vdd n1 0 0 sky130_fd_pr__nfet_01v8 w=5 l=2
+R1 n1 in 55
+Vdd vdd 0 1.8
+Vin in 0 1.8
+
+*** Simulation Commands ***
+.op
+.dc Vdd 0 1.8 0.1 Vin 0 1.8 0.2
+
+.control
+run
+display
+setplot dc1
+.endc
+
+.end
+```
+
+![08](./images/08.png)
+
+---
+
+## ✍️ Circuit Syntax Explained
+
+| Element                     | Description                                  |
+| --------------------------- | -------------------------------------------- |
+| **XM1**                     | MOSFET instance name                         |
+| **vdd n1 0 0**              | Node connections — Drain, Gate, Source, Body |
+| **sky130_fd_pr__nfet_01v8** | Sky130 NMOS model name                       |
+| **w=5 l=2**                 | Transistor dimensions (in micrometers)       |
+| **Vdd, Vin**                | DC sources for biasing                       |
+
+🧠 *Example:*
+
+```
+M1 D G S B sky130_fd_pr__nfet_01v8 W=2u L=0.15u
+```
+
+---
+
+## 🧪 Including Sky130 Model Libraries
+
+Include the model files in your netlist to enable accurate transistor behavior:
+
+```spice
+.include "sky130_fd_pr/models/sky130.lib.spice"
+```
+
+![09](./images/09.png)
+
+---
+
+## 🚀 Running Your First SPICE Simulation
+
+Run the simulation in the terminal:
+
+```bash
+ngspice day1_nfet_idvds_L2_W5.spice
+```
+
+Inside the Ngspice prompt, plot the drain current:
+
+```bash
+plot -vdd#branch
+```
+
+This command plots the **drain current (Id)** vs **drain-to-source voltage (Vds)** for multiple gate voltages (Vgs).
+
+![10](./images/10.png)
+
+---
+
+## 📊 Observations — Id vs Vds
+
+In the plotted waveforms, observe:
+
+* 📈 **Linear Region:** Current increases linearly with Vds at small voltages.
+* 🌀 **Saturation Region:** Id flattens out as Vds increases (channel pinch-off).
+* ⚙️ **Effect of Vgs:** Higher Vgs increases Id due to stronger channel inversion.
+
+---
+
+## 🧠 Summary
+
+| Concept                  | Key Takeaway                                                |
+| ------------------------ | ----------------------------------------------------------- |
+| **SPICE Simulation**     | Essential for pre-fabrication circuit verification          |
+| **NMOS Device Behavior** | Controlled by gate voltage (Vgs)                            |
+| **Resistive Region**     | Linear Id–Vds behavior                                      |
+| **Saturation Region**    | Id saturates ∝ (Vgs − Vth)²                                 |
+| **Body Effect**          | Raises Vth when substrate potential increases               |
+| **Ngspice**              | Open-source simulator for device and circuit-level analysis |
+
+---
+
+## 🔗 Next Step
+
+➡️ Proceed to **[Day 2 — Velocity Saturation and CMOS Inverter VTC](./Day2_CMOS_VTC/Readme.md)**
+Here, you’ll explore **Id–Vgs characteristics**, extract **Vth**, and analyze the **Voltage Transfer Characteristic (VTC)** of a CMOS inverter.
 
 ---
