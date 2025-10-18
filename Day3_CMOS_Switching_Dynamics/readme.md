@@ -108,7 +108,7 @@ $[
 V_m \approx \frac{V_{DD} + |V_{tp}| - \sqrt{\frac{\beta_n}{\beta_p}}(V_{DD} - V_{tn})}{1 + \sqrt{\frac{\beta_n}{\beta_p}}}
 ]$
 
-where (\beta = \mu C_{ox}(W/L))
+where $(\beta = \mu C_{ox}(W/L))$
 
 ---
 
