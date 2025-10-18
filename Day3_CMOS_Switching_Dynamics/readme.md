@@ -72,8 +72,6 @@ It highlights the inverter’s **switching point** and **noise margins**.
 
 ![1](./images/01.png)
 
-*(Plot of Vout vs Vin showing sharp transition near Vm)*
-
 ---
 
 ## ⚖️ **Switching Threshold (Vm)**
@@ -152,8 +150,6 @@ This simulation examines the **dynamic response** of the inverter to a square-wa
 * **Output (Vout):** Delayed inversion of Vin, with finite rise and fall times.
 
 ![2](./images/02.png)
-
-*(Shows Vin and Vout vs time — demonstrates propagation delay and inversion)*
 
 ---
 
