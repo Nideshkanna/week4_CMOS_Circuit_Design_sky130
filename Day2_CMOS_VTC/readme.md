@@ -197,83 +197,97 @@ It outputs the **complement** of the input and serves as the basis for all digit
 
 ---
 
-## 🧾 **SPICE Netlist for CMOS Inverter VTC**
-
-```spice
-*** CMOS Inverter VTC ***
-
-.param temp=27
-.lib "sky130_fd_pr/models/sky130.lib.spice" tt
-
-M1 out in vdd vdd sky130_fd_pr__pfet_01v8 w=0.84u l=0.36u
-M2 out in 0   0   sky130_fd_pr__nfet_01v8 w=0.36u l=0.36u
-
-Vdd vdd 0 1.8
-Vin in  0 0
-
-.dc Vin 0 1.8 0.01
-.control
-run
-plot v(out) vs v(in)
-.endc
-
-.end
-```
+Perfect! We can **replace the existing SPICE netlist section with a richer theory-backed explanation**, keeping it aligned with **Day 2 focus**: velocity saturation, short-channel effects, and basic CMOS VTC understanding. Here’s a **reworked section** you can use:
 
 ---
 
-## 📊 **Voltage Transfer Characteristic (VTC)**
+## 🧠 **CMOS Inverter — Voltage Transfer Characteristics (VTC) and Theory**
 
-The **VTC** shows how the output voltage **V<sub>out</sub>** varies with the input **V<sub>in</sub>**.
-
-### ⚙️ **Key Regions**
-
-1. **Low Input (Vin < Vth):** NMOS OFF, PMOS ON → Output ≈ VDD
-2. **Transition Region:** Both partially ON → Output rapidly falls
-3. **High Input (Vin > Vth):** NMOS ON, PMOS OFF → Output ≈ 0 V
-
-![04](./images/04.png)
+In Day 2, we focus on the **basic CMOS inverter behavior** and the effects of **velocity saturation** in short-channel devices using Sky130 SPICE simulations.
 
 ---
 
-## 🧮 **Switching Threshold (Vm)**
+### ⚙️ **Key Operating Principles**
 
-The **switching threshold (Vm)** is the point where:
+1. **MOSFET as a Switch**
 
-$[
+   * NMOS: Conducts when ( V_{GS} > V_{th} )
+   * PMOS: Conducts when ( V_{SG} > |V_{th}| )
+
+2. **Drain Current Dependence**
+
+   * **Long-channel devices:** Drain current ( I_D ) depends quadratically on ( V_{GS} - V_{th} )
+   * **Short-channel devices:** High electric fields cause **velocity saturation**, limiting ( I_D )
+
+3. **CMOS Inverter Action**
+
+   * **Low Input ((V_{in} < V_{th}))**: NMOS OFF, PMOS ON → ( V_{out} \approx V_{DD} )
+   * **Transition Region**: Both transistors partially ON → ( V_{out} ) falls rapidly
+   * **High Input ((V_{in} > V_{th}))**: NMOS ON, PMOS OFF → ( V_{out} \approx 0 )
+
+---
+
+### 📊 **Switching Threshold (Vm)**
+
+The **switching threshold voltage (V_m)** is the input voltage at which:
+
+[
 V_{in} = V_{out}
-]$
+]
 
-It represents the inverter’s **balance point** — when both transistors conduct equally.
+* At ( V_m ), **NMOS and PMOS currents are equal** in magnitude.
+* Determines **logic transition point** and **noise margins**.
+* For **balanced rise/fall times**, PMOS is typically sized **≈ 2× NMOS (W/L)**.
 
 | Parameter           | Symbol         | Typical Value |
 | ------------------- | -------------- | ------------- |
 | Switching Threshold | V<sub>m</sub>  | ≈ 0.88 V      |
 | Supply Voltage      | V<sub>DD</sub> | 1.8 V         |
+| PMOS/NMOS ratio     | Wp/Wn          | ≈ 2           |
 
 ---
 
-## 🧠 **Observations**
+### 🧪 **Theory — Velocity Saturation**
 
-* 📈 Velocity saturation limits **drain current** in short-channel devices.
-* ⚙️ CMOS inverter’s **VTC curve** reflects **transition sharpness** and **switching point**.
-* 💡 **Symmetric switching** occurs when **(W/L)<sub>PMOS</sub> ≈ 2×(W/L)<sub>NMOS</sub>**.
-* 🧩 These parameters directly influence **propagation delay** and **noise margins**.
+* In **short-channel devices**, electrons cannot accelerate indefinitely.
+* **Drain current saturates** at high ( V_{DS} ), limiting switching speed.
+* Important for **low-power, high-speed CMOS design**.
 
----
-
-## 🧠 **Summary**
-
-| Concept                      | Key Takeaway                                                      |
-| ---------------------------- | ----------------------------------------------------------------- |
-| **Velocity Saturation**      | Limits electron velocity at high electric fields                  |
-| **Short Channel Effect**     | Reduces current and transconductance                              |
-| **VTC Curve**                | Defines input–output behavior of CMOS inverter                    |
-| **Switching Threshold (Vm)** | Determines logic transition point                                 |
-| **SPICE Simulation**         | Enables precise observation of analog and digital characteristics |
+| Effect                   | Impact on Inverter                              |
+| ------------------------ | ----------------------------------------------- |
+| Velocity Saturation      | Limits drain current, reduces gain              |
+| Short Channel Effect     | Threshold voltage shift, increased leakage      |
+| VTC Transition Sharpness | Affected by (W/L) ratio and mobility saturation |
+| Switching Threshold Vm   | Determines inverter’s balanced operating point  |
 
 ---
 
+### 🧩 **CMOS Inverter VTC Visualization**
+
+* The **VTC curve** represents ( V_{out} ) vs ( V_{in} )
+* Shows **transition region**, **logic high/low levels**, and **switching threshold**
+* **Sharpness** of the transition indicates the inverter’s **gain and speed**
+
+> 💡 Observations:
+>
+> * Symmetric switching occurs with ( (W/L)*{PMOS} \approx 2 \times (W/L)*{NMOS} )
+> * Propagation delay and noise margin are **directly influenced** by device sizing and velocity saturation.
+
+![04](./images/04.png)
+
+---
+
+### 🧠 **Summary Table — Day 2 Key Concepts**
+
+| Concept                      | Key Takeaway                                                         |
+| ---------------------------- | -------------------------------------------------------------------- |
+| **Velocity Saturation**      | Limits electron velocity at high electric fields                     |
+| **Short Channel Effect**     | Reduces drain current and transconductance                           |
+| **CMOS Inverter VTC**        | Shows input-output behavior, transition region, and Vm               |
+| **Switching Threshold (Vm)** | Determines logic transition point, affects noise margin              |
+| **SPICE Simulation**         | Enables observation of short-channel and velocity saturation effects |
+
+---
 ## 🔗 **Next Step**
 
 ➡️ Proceed to **[Day 3 — CMOS Switching Threshold and Dynamic Simulations](../Day3_CMOS_Switching_Dynamics/readme.md)**
