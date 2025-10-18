@@ -56,22 +56,37 @@ We perform a **DC sweep simulation** on an NMOS transistor, varying **Vgs** and 
 ### 🧾 **Sample SPICE Netlist (Id–Vgs Sweep)**
 
 ```spice
-*** Velocity Saturation and Threshold Extraction ***
-
+*Model Description
 .param temp=27
+
+
+*Including sky130 library files
 .lib "sky130_fd_pr/models/sky130.lib.spice" tt
 
-XM1 vdd in 0 0 sky130_fd_pr__nfet_01v8 w=0.39u l=0.15u
-Vdd vdd 0 1.8
-Vin in 0 0
 
-.dc Vin 0 1.8 0.01
+*Netlist Description
+
+XM1 Vdd n1 0 0 sky130_fd_pr__nfet_01v8 w=0.39 l=0.15
+
+R1 n1 in 55
+
+Vdd vdd 0 1.8V
+Vin in 0 1.8V
+
+*simulation commands
+
+.op
+.dc Vin 0 1.8 0.1 
+
 .control
+
 run
-plot i(Vdd)
+display
+setplot dc1
 .endc
 
 .end
+
 ```
 
 ### 💻 **Run Simulation**
@@ -102,6 +117,70 @@ You can extract **V<sub>th</sub>** using the **linear extrapolation method**:
 
 ---
 
+## ⚙️ **SPICE Simulation — NMOS Id vs Vds**
+
+To understand the **output characteristics** of the NMOS transistor, we perform a **DC sweep** varying **V<sub>DS</sub>** from 0 V to 1.8 V at multiple **V<sub>GS</sub>** bias levels.
+This helps visualize the **linear region**, **saturation region**, and the impact of **velocity saturation**.
+
+### 🧾 **Sample SPICE Netlist (Id–Vds Sweep)**
+
+```spice
+*Model Description
+.param temp=27
+
+*Including sky130 library files
+.lib "sky130_fd_pr/models/sky130.lib.spice" tt
+
+*Netlist Description
+XM1 Vdd n1 0 0 sky130_fd_pr__nfet_01v8 w=0.39 l=0.15
+R1 n1 in 55
+
+Vdd vdd 0 1.8V
+Vin in 0 1.8V
+
+*Simulation Commands
+.op
+.dc Vdd 0 1.8 0.1 Vin 0 1.8 0.2
+
+.control
+run
+display
+setplot dc1
+.endc
+
+.end
+```
+
+### 💻 **Run Simulation**
+
+```bash
+ngspice day2_nfet_idvds_L015_W039.spice
+```
+
+This simulation performs a **nested DC sweep**:
+
+* The **outer sweep** varies **V<sub>GS</sub>** (Vin) from 0 V to 1.8 V in 0.2 V steps.
+* The **inner sweep** varies **V<sub>DS</sub>** (Vdd) from 0 V to 1.8 V in 0.1 V steps.
+
+You can plot **I<sub>D</sub> vs V<sub>DS</sub>** for each **V<sub>GS</sub>** to observe how the transistor transitions from **ohmic** to **saturation** regions.
+
+### 📈 **Expected Observation**
+
+* For **small V<sub>DS</sub>**, the device operates in the **linear region** (Id increases linearly).
+* As **V<sub>DS</sub>** increases, **Id** saturates — marking the **saturation region**.
+* The **higher the V<sub>GS</sub>**, the larger the **drain current** and the earlier the device enters saturation.
+
+![02](./images/02.png)
+
+---
+
+### 🧩 **Concept Insight — Velocity Saturation**
+
+At **deep submicron lengths (L = 0.15 µm)**, the drain current deviates from ideal quadratic behavior due to **carrier velocity saturation**.
+This physical effect limits **current drive** and influences **switching speed** — a key concept for **modern CMOS scaling**.
+
+---
+
 ## ⚙️ **Building a CMOS Inverter**
 
 A **CMOS Inverter** combines **PMOS** and **NMOS** transistors to form a logic NOT gate.
@@ -114,7 +193,7 @@ It outputs the **complement** of the input and serves as the basis for all digit
 * **Output:** Taken at the common drain node.
 * **Input:** Shared gate terminal.
 
-![02](./images/02.png)
+![03](./images/03.png)
 
 ---
 
@@ -153,7 +232,7 @@ The **VTC** shows how the output voltage **V<sub>out</sub>** varies with the inp
 2. **Transition Region:** Both partially ON → Output rapidly falls
 3. **High Input (Vin > Vth):** NMOS ON, PMOS OFF → Output ≈ 0 V
 
-![03](./images/03.png)
+![04](./images/04.png)
 
 ---
 
