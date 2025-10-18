@@ -79,9 +79,9 @@ It highlights the inverter’s **switching point** and **noise margins**.
 ## ⚖️ **Switching Threshold (Vm)**
 
 The **switching threshold** is defined where:
-[
+$[
 V_{in} = V_{out}
-]
+]$
 
 At this point, both transistors conduct equally, and the inverter is most sensitive to input changes.
 
@@ -104,9 +104,10 @@ The switching threshold depends on the transistor width ratio ((W/L)_p / (W/L)_n
 
 
 🧮 Expression of Vm in terms of transistor sizes:
-[
+$[
 V_m \approx \frac{V_{DD} + |V_{tp}| - \sqrt{\frac{\beta_n}{\beta_p}}(V_{DD} - V_{tn})}{1 + \sqrt{\frac{\beta_n}{\beta_p}}}
-]
+]$
+
 where (\beta = \mu C_{ox}(W/L))
 
 ---
