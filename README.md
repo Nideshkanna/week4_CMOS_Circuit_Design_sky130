@@ -60,10 +60,9 @@ You can view the detailed documentation and plots here:
 
 ---
 
-## 🏁 End of Week 4
+🏁 End of Week 4
+This marks the completion of Week 4, the transistor-level and SPICE simulation phase in our tapeout journey.
 
-This marks the **completion of Week 4**, the final week of the Analog/Device simulation phase in our tapeout journey.
-
-Next, in 👉 [**Week 5 – STA and Timing Closure (Sign-off Analysis)**](https://github.com/Nideshkanna/week5_STA_TimingClosure_sky130), you’ll apply the transistor-level insights from this week to timing verification and sign-off of the RISC-V SoC design. 🕒✨
+Next, in 👉 [Week 5 – OpenROAD Flow Setup and Floorplan/Placement](https://github.com/Nideshkanna/week5_OpenROAD_Installation_and_Setup), you’ll transition from device-level design to **backend physical design**, installing OpenROAD and executing the **Floorplan and Placement stages** for your RISC-V SoC. 🕒✨
 
 ---
